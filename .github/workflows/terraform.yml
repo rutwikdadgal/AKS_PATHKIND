@@ -81,15 +81,20 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-    # Azure login using the AZURE_CREDENTIALS secret
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    # # Azure login using the AZURE_CREDENTIALS secret
+    # - name: Azure Login
+    #   uses: azure/login@v1
+    #   with:
+    #     creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      run: terraform init
+      run: |
+          terraform init \
+            -backend-config="resource_group_name=pathkind-rg" \
+            -backend-config="storage_account_name=pathkindtfstatestgacc" \
+            -backend-config="container_name=tfstate" \
+            -backend-config="key=terraform.tfstate"
       env:
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
         AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
