@@ -114,10 +114,10 @@ jobs:
           terraform plan 
     
     - name: Terraform Apply
-        env:
+      env:
           ARM_CLIENT_ID: ${{ secrets.client_id }}
           ARM_CLIENT_SECRET: ${{ secrets.client_secret }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.subscription_id }}
           ARM_TENANT_ID: ${{ secrets.tenant_id }}
-        run: |
+      run: |
           terraform apply -auto-approve
